@@ -2,10 +2,8 @@ import re
 import numpy as np
 from pylab import *
 import pdb
-from drawnow import drawnow, figure
 import matplotlib as mpl
 mpl.rcParams['toolbar'] = 'None'
-
 
 lines = open("g1.txt").readlines()
 result = np.empty((0,4), float)
@@ -46,7 +44,16 @@ data = result.tolist()
 cx = 0
 cy = 0
 cz = 0
+ce = 0
+counter = 0
+t = []
+ds = []
+deltaEs = []
+divided = []
 for row in data:
+    t.append(counter)
+
+    subplot(2,2,1)
     nx = row[0]
     ny = row[1]
     nz = row[2]
@@ -59,16 +66,39 @@ for row in data:
         print("")
         print("")
         cla()
-    e = row[3]
+    ne = row[3]
+    deltaE = ne - ce
     plot(nx,ny,'ro')
-    plot([cx,nx],[cy,ny],'b-')
+    print("delta E:",deltaE)
+    if(deltaE>0):
+        plot([cx,nx],[cy,ny],'b-')
     axis('equal')
     xlim([minX,maxX])
     ylim([minY,maxY])
+    title("Runnning Z "+str(cz))
     pause(0.01)
     print(nx,ny,nz,e)
+
+    subplot(2,2,2)
+    title("distance |x|")
+    d = sqrt((cx-nx)**2-(cy-ny)**2)
+    ds.append(d)
+    plot(t,ds,'b-')
+
+    subplot(2,2,3)
+    title("delta E")
+    deltaEs.append(deltaE)
+    plot(t,deltaEs,'b-')
+
+    subplot(2,2,4)
+    title("delta E / distance")
+    divided.append(deltaE/d)
+    plot(t,divided,'b-')
+
     cx = nx
     cy = ny
     cz = nz
+    ce = ne
+    counter = counter + 1
     #print("".join(word.ljust(col_width) for word in row))
 
