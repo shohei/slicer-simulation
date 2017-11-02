@@ -50,9 +50,16 @@ t = []
 ds = []
 deltaEs = []
 divided = []
+T = []
+X = []
+Y = []
+E = []
+D = []
+R = []
 for row in data:
+    if(counter==50 or counter==100 or counter==120):
+        T.append(counter)
     t.append(counter)
-
     subplot(2,2,1)
     nx = row[0]
     ny = row[1]
@@ -70,8 +77,14 @@ for row in data:
     deltaE = ne - ce
     plot(nx,ny,'ro')
     print("delta E:",deltaE)
-    if(deltaE>0):
-        plot([cx,nx],[cy,ny],'b-')
+    if(counter==50 or counter==100 or counter==120):
+        X.append(nx)
+        Y.append(ny)
+        plot(X,Y,'ro',markersize=15)
+    else:
+        if(deltaE>0):
+            plot([cx,nx],[cy,ny],'b-')
+        
     axis('equal')
     xlim([minX,maxX])
     ylim([minY,maxY])
@@ -83,17 +96,29 @@ for row in data:
     title("distance |x|")
     d = sqrt((cx-nx)**2-(cy-ny)**2)
     ds.append(d)
-    plot(t,ds,'b-')
+    if(counter==50 or counter==100 or counter==120):
+        D.append(d)
+        plot(T,D,'ro')
+    else:
+        plot(t,ds,'b-')
 
     subplot(2,2,3)
     title("delta E")
     deltaEs.append(deltaE)
-    plot(t,deltaEs,'b-')
+    if(counter==50 or counter==100 or counter==120):
+        E.append(deltaE)
+        plot(T,E,'ro')
+    else:
+        plot(t,deltaEs,'b-')
 
     subplot(2,2,4)
     title("delta E / distance")
     divided.append(deltaE/d)
-    plot(t,divided,'b-')
+    if(counter==50 or counter==100 or counter==120):
+        R.append(deltaE/d) 
+        plot(T,R,'ro')
+    else:
+        plot(t,divided,'b-')
 
     cx = nx
     cy = ny
