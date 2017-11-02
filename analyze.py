@@ -1,7 +1,11 @@
 import re
 import numpy as np
 from pylab import *
+import pdb
 from drawnow import drawnow, figure
+import matplotlib as mpl
+mpl.rcParams['toolbar'] = 'None'
+
 
 lines = open("g1.txt").readlines()
 result = np.empty((0,4), float)
@@ -30,6 +34,11 @@ for line in lines:
 
 #print(result)
 
+print("hey")
+figure(figsize=(12,10))
+gcf().patch.set_facecolor('white')
+gcf().canvas.set_window_title('result')
+print("wey")
 hold(True)
 data = result.tolist()
 #print(data)
